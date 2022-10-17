@@ -1,0 +1,12 @@
+general:
+  bucket: 
+  start: 2
+  end: 0
+  log_file: calabrio_extract.log
+  path: qm/calabrio
+api:
+  url: https://uswest2.calabriocloud.com/api/rest
+  user: 
+  token: 
+session:
+  cookie: 
