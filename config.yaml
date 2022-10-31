@@ -1,12 +1,11 @@
 general:
-  bucket: 
-  start: 2
-  end: 0
+  bucket:
+  start_date: '2021-01-01'
   log_file: calabrio_extract.log
   path: qm/calabrio
 api:
   url: https://uswest2.calabriocloud.com/api/rest
   user: 
-  token: 
+  token:
 session:
   cookie: 
