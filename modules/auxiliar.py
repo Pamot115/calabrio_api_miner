@@ -72,6 +72,8 @@ class FileProcessing():
         dataframe_list.extend([calls.df_eval_details, calls.df_eval_sections, calls.df_eval_questions, calls.df_eval_comments])
         dataframe_names.extend(['eval_details', 'eval_sections', 'eval_questions', 'eval_comments'])
         
+        dataframe_list.extend([calls.df_agents, calls.df_schedules])
+        dataframe_names.extend(['agents', 'schedules'])
         return dataframe_list, dataframe_names
 
     def split_chunks(self, df):
@@ -127,4 +129,4 @@ class FileProcessing():
             file_name = f'Chunk_{str(iter).zfill(3)}'
             self.pd.DataFrame(chunk).to_parquet(
                 path=f'{base_path}/{file_name}.parquet',
-                compression='gzip')
+                compression='gzip', index=False)

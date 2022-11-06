@@ -1,6 +1,6 @@
 general:
   bucket:
-  start_date: '2021-01-01'
+  start_date: '2021-03-01'
   log_file: calabrio_extract.log
   path: qm/calabrio
 api:

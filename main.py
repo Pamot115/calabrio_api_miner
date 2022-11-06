@@ -17,7 +17,7 @@ logging.basicConfig(filename=cfg.log_file, format=log_format, level=logging.INFO
 files = FileProcessing(local_process=True)
 calls = ApiCalls(cfg)
         
-def load_data(start_date: dt.date.isoformat, end_date: dt.date.isoformat) -> None:
+def load_data(start_date: dt.date, end_date: dt.date) -> None:
     run     = calls.load_records(start_date, end_date, all_records = True)
 
     if run == False:
@@ -33,13 +33,15 @@ def load_data(start_date: dt.date.isoformat, end_date: dt.date.isoformat) -> Non
     for index, record in  calls.df_eval_records.iterrows():
         calls.load_answers(record['recordId'], record['evaluation.id'])     
     logging.info(f'Time spent on evaluation details:    {dt.datetime.now()-start_time}')
+    
+    calls.load_agents(start_date)
 
     dataframe_list, dataframe_names = files.group_dfs(calls)
     
     # Once all dataframes are loaded, export them to individual parquet files.
     
     for item in range(0, len(dataframe_list)):
-        files.export(dataframe_list[item], dataframe_names[item], dt.datetime.now())
+        files.export(dataframe_list[item], dataframe_names[item], start_date)
     
     logging.info('The process completed successfully')\
 
@@ -61,15 +63,14 @@ if __name__ == '__main__':
         while(month_iters!=0 or day_iters!=0):
             
             if month_iters != 0:
-                date_diff = relativedelta(months=month_iters-1)
-                days_run = relativedelta(days=relative_diff.days)
+                date_diff = relativedelta(months=month_iters-1, days=day_iters)
                 month_iters = month_iters - 1
             else:
                 date_diff = relativedelta(days=day_iters-1)
                 day_iters = day_iters - 1
 
  
-            date_min = dt.datetime.strptime(str(date_min), '%Y-%m-%d').date().isoformat()
+            date_min = dt.datetime.strptime(str(date_min), '%Y-%m-%d').date()
             date_max = dt.date.today() - date_diff
 
             print(f'Max: {date_max} - Min: {date_min}')
